@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Primer — Unified State Model explorer</title>
+  <meta name="description" content="A plain-language introduction to the ideas behind the Unified State Model explorer.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="prose">
+  <p class="backlink"><a href="index.html">← Back to the explorer</a></p>
+  <h1>A primer on the Unified State Model</h1>
+  <p class="lede">Ten minutes, no economics background needed. By the end you should be able to read every dial and number in the explorer.</p>
+
+  <ol class="toc">
+    <li><a href="#what">What the tool is for</a></li>
+    <li><a href="#flex">The one big idea: flexibility</a></li>
+    <li><a href="#scale">The −1 to +1 scale</a></li>
+    <li><a href="#plane">Two numbers on one map</a></li>
+    <li><a href="#spiral">When prices feed on themselves</a></li>
+    <li><a href="#layers">Layers and bottlenecks</a></li>
+    <li><a href="#money">Goods and money</a></li>
+    <li><a href="#map">The position map</a></li>
+    <li><a href="#decide">Deciding: waiting costs money</a></li>
+    <li><a href="#scenario">The scale scenario tab</a></li>
+    <li><a href="#limits">What it cannot tell you</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+  </ol>
+
+  <h2 id="what">1. What the tool is for</h2>
+  <p>Some markets shrug off a surprise. Others lurch: prices double, or collapse, after what looked like a small change. The Unified State Model is an attempt to say <em>which kind of market you are looking at</em> using a handful of numbers, and then to ask a second, separate question: <em>even if you are right about the market, can you afford to wait for it to move?</em></p>
+  <p>The explorer lets you set those numbers by hand and see what the model says. It does not know anything about real markets. Every number in it is one you typed.</p>
+
+  <h2 id="flex">2. The one big idea: flexibility</h2>
+  <p>When a price changes, people react. How strongly they react is called <strong>elasticity</strong>. This model calls it <strong>flexibility</strong>, and it looks at two sides.</p>
+  <ul>
+    <li><strong>Supply flexibility.</strong> If the price goes up, how much more gets made? A pizza shop can bake more tonight: flexible. A stadium has a fixed number of seats: not flexible at all. A new power line takes years to build: not flexible for years.</li>
+    <li><strong>Demand flexibility.</strong> If the price goes up, how much less do people buy? If cinema tickets get dearer, people stay home: flexible. If a medicine you need gets dearer, you still buy it: not flexible.</li>
+  </ul>
+  <p>The number behind this is simple. If the price rises 10% and people buy 20% less, the elasticity is 20 ÷ 10 = 2. If they buy only 1% less, it is 0.1.</p>
+
+  <figure class="card">
+    <svg viewBox="0 0 560 215" role="img" aria-label="The same rise in demand causes a small price rise when supply is flexible and a large one when supply is a hard wall">
+      <g>
+        <text class="title" x="40" y="14">Flexible supply</text>
+        <line x1="40" y1="170" x2="250" y2="170" stroke="var(--muted)"/><line x1="40" y1="170" x2="40" y2="24" stroke="var(--muted)"/>
+        <text x="145" y="188" text-anchor="middle">quantity</text><text x="14" y="100" transform="rotate(-90 14 100)" text-anchor="middle">price</text>
+        <line x1="50" y1="120" x2="240" y2="90" stroke="var(--s1)" stroke-width="2.5"/><text x="212" y="84" fill="var(--s1)">supply</text>
+        <line x1="60" y1="50" x2="200" y2="160" stroke="var(--s2)" stroke-width="2" stroke-opacity="0.45"/>
+        <line x1="100" y1="50" x2="240" y2="160" stroke="var(--s2)" stroke-width="2"/><text x="104" y="44" fill="var(--s2)">demand rises →</text>
+        <circle cx="132.4" cy="107" r="4" fill="var(--ink)"/><circle cx="165.8" cy="101.7" r="4" fill="var(--ink)"/>
+        <line x1="40" y1="107" x2="132.4" y2="107" stroke="var(--muted)" stroke-dasharray="3 3"/><line x1="40" y1="101.7" x2="165.8" y2="101.7" stroke="var(--muted)" stroke-dasharray="3 3"/>
+        <text x="46" y="208" fill="var(--ink)">Price barely moves. More gets made.</text>
+      </g>
+      <g transform="translate(290 0)">
+        <text class="title" x="40" y="14">Hard wall</text>
+        <line x1="40" y1="170" x2="250" y2="170" stroke="var(--muted)"/><line x1="40" y1="170" x2="40" y2="24" stroke="var(--muted)"/>
+        <text x="145" y="188" text-anchor="middle">quantity</text>
+        <line x1="130" y1="165" x2="130" y2="28" stroke="var(--s1)" stroke-width="2.5"/><text x="136" y="36" fill="var(--s1)">supply</text>
+        <line x1="60" y1="50" x2="200" y2="160" stroke="var(--s2)" stroke-width="2" stroke-opacity="0.45"/>
+        <line x1="100" y1="50" x2="240" y2="160" stroke="var(--s2)" stroke-width="2"/>
+        <circle cx="130" cy="105" r="4" fill="var(--ink)"/><circle cx="130" cy="73.6" r="4" fill="var(--ink)"/>
+        <line x1="40" y1="105" x2="130" y2="105" stroke="var(--muted)" stroke-dasharray="3 3"/><line x1="40" y1="73.6" x2="130" y2="73.6" stroke="var(--muted)" stroke-dasharray="3 3"/>
+        <text x="46" y="208" fill="var(--ink)">Price jumps. Nothing extra gets made.</text>
+      </g>
+    </svg>
+    <figcaption>The same rise in demand, two very different results. What differs is only how flexible supply is.</figcaption>
+  </figure>
+
+  <h2 id="scale">3. The −1 to +1 scale</h2>
+  <p>Elasticities can be any size, which makes them awkward to put on a slider. So the explorer squeezes them onto a scale from −1 to +1, written <strong>ε</strong> (epsilon). The real elasticity is written <strong>η</strong> (eta). The squeeze is <code>ε = η ÷ (1 + η)</code> for positive values.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Slider ε</th><th>Real elasticity η</th><th>In words</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0</td><td>No reaction at all. A hard wall, or a buyer with no choice.</td></tr>
+        <tr><td>0.2</td><td>0.25</td><td>Stiff. A 10% price change moves quantity about 2.5%.</td></tr>
+        <tr><td>0.5</td><td>1</td><td>Middling. A 10% price change moves quantity about 10%.</td></tr>
+        <tr><td>0.8</td><td>4</td><td>Very flexible. A 10% price change moves quantity about 40%.</td></tr>
+        <tr><td>below 0</td><td>below 0</td><td>Backwards. See section 5.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The model also sorts supply into five named bands, from <strong>S−</strong> (backwards) through <strong>S0h</strong> (hard wall), <strong>S0s</strong> (steep), <strong>S1</strong> (elastic) to <strong>S2</strong> (unbounded). They are just labels for stretches of the slider.</p>
+
+  <h2 id="plane">4. Two numbers on one map</h2>
+  <p>Every market gets two flexibility numbers, one for demand and one for supply. Plot demand across and supply up, and each market is a point on a square map. The explorer calls this a <strong>plane</strong>.</p>
+  <p>Two things about where the point sits matter most.</p>
+
+  <h3>How much give is there in total? (Λ, “lambda”)</h3>
+  <p><strong>Λ</strong> is the average of the two numbers. It measures how much total “give” the market has. A handy rule of thumb goes with it, the <strong>shock multiplier μ</strong> (mu):</p>
+  <p><code>price change ≈ demand change × μ</code>, where <code>μ = 1 ÷ (demand elasticity + supply elasticity)</code></p>
+  <div class="example">
+    <p><strong>Worked example.</strong> Demand elasticity 1, supply elasticity 0.25. Then μ = 1 ÷ 1.25 = 0.8. If demand jumps 10%, the price rises about 8%.</p>
+    <p>Now make supply a hard wall (0) and buyers nearly stuck (0.1). Then μ = 1 ÷ 0.1 = 10. The same 10% jump in demand roughly doubles the price. (For jumps that large the rule of thumb is only rough, but the direction is right.)</p>
+  </div>
+  <p>So: high Λ means a calm market. Λ close to zero means a market that spikes. This is what a shortage looks like.</p>
+
+  <h3>Which side is stuck? (Δ, “delta”)</h3>
+  <p><strong>Δ</strong> is demand flexibility minus supply flexibility. It tells you who has less room to move. The side with less room is the side that pays when costs rise, and also the side that collects when the other side grows.</p>
+  <ul>
+    <li>Δ positive: sellers are the stiffer side. Think of the only landlord in a growing town.</li>
+    <li>Δ negative: buyers are the stiffer side. Think of commuters and the only bridge.</li>
+  </ul>
+  <p>Δ on its own is not enough. Two very different markets can share the same Δ, one calm and one about to blow up. That is why the explorer always shows both numbers.</p>
+
+  <figure class="card">
+    <svg viewBox="0 0 400 356" role="img" aria-label="Map of the plane with its named corners">
+      <path d="M50,20 L350,320 L50,320 Z" fill="var(--danger)" fill-opacity="0.1"/>
+      <rect x="50" y="20" width="300" height="300" fill="none" stroke="var(--muted)"/>
+      <line x1="50" y1="320" x2="350" y2="20" stroke="var(--muted)"/>
+      <line x1="50" y1="20" x2="350" y2="320" stroke="var(--ink)" stroke-width="2"/>
+      <text x="200" y="344" text-anchor="middle">demand flexibility →</text>
+      <text x="26" y="170" transform="rotate(-90 26 170)" text-anchor="middle">supply flexibility →</text>
+      <circle cx="305" cy="65" r="5" fill="var(--s5)"/><text x="296" y="50" text-anchor="end" fill="var(--ink)">Deep market: calm</text>
+      <circle cx="200" cy="170" r="5" fill="var(--ink)"/><text x="210" y="166" fill="var(--ink)">Wall: spikes</text>
+      <circle cx="185" cy="125" r="5" fill="var(--s2)"/><text x="176" y="112" text-anchor="end" fill="var(--ink)">Captive buyer</text>
+      <circle cx="245" cy="185" r="5" fill="var(--s1)"/><text x="254" y="202" fill="var(--ink)">Constrained supplier</text>
+      <circle cx="125" cy="235" r="5" fill="var(--danger)"/><text x="134" y="252" fill="var(--ink)">Spiral: feeds on itself</text>
+      <text x="340" y="302" text-anchor="end" font-size="10">Λ = 0</text>
+    </svg>
+    <figcaption>The bold line is where total give runs out (Λ = 0). Above it, markets settle. On it, they spike. Below it, in the shaded half, they run away.</figcaption>
+  </figure>
+
+  <h2 id="spiral">5. When prices feed on themselves</h2>
+  <p>Normally a higher price cools things down: buyers buy less and sellers make more. That is what pulls a market back to balance.</p>
+  <p>Sometimes the opposite happens. Buyers rush in <em>because</em> the price is rising, afraid of missing out. Or they dump everything <em>because</em> it is falling. Sellers can behave backwards too: when house prices crash, building stops. On the slider these show up as <strong>negative</strong> numbers.</p>
+  <p>If the two numbers add up to less than zero, nothing pulls the market back. A rise causes more rising; a fall causes more falling. The model calls this a <strong>spiral</strong>, and it covers manias and crashes alike. The multiplier μ has no meaning there, so the explorer prints “no stable clearing” instead of a number.</p>
+
+  <h2 id="layers">6. Layers and bottlenecks</h2>
+  <p>Most products are really a chain. An AI chatbot needs electricity, which needs power lines; chips; and software. Software can be copied endlessly. Power lines take years.</p>
+  <p>Giving the whole chain one flexibility number would hide exactly the part that matters. So the model scores each <strong>layer</strong> separately, and the stiffest one is the <strong>binding layer</strong>: the bottleneck. In the explorer you can add layers, and the bottleneck gets a star.</p>
+  <p>One more label belongs to bottleneck layers: <strong>W</strong>, who pays to widen it. If the newcomer pays, it tends to get built. If everyone else is asked to pay, expect an argument first.</p>
+
+  <h2 id="money">7. Goods and money</h2>
+  <p>The model draws two maps. One is for the thing itself (the <strong>resource leg</strong>). The other is for the money that pays for it (the <strong>capital leg</strong>), where the “price” is the cost of borrowing or the return investors demand.</p>
+  <p>On top of that sits the <strong>capital regime, K</strong>. It answers a different question: how does money get handed out here?</p>
+  <ul>
+    <li><strong>K0, rationed.</strong> Rules decide, not price. A country with currency controls is an example.</li>
+    <li><strong>K1, cleared.</strong> Price decides, and people borrow less when borrowing gets dearer. This is the normal case.</li>
+    <li><strong>K2, insensitive.</strong> Price decides, but builders kept building even when money got dearer, because they expected the payoff to dwarf the cost. This is what a boom looks like from the inside.</li>
+  </ul>
+  <p>K cannot be read off the sliders. It has to be checked against what actually happened when money got dearer, over a stated period. Until someone has done that check, the honest label is <strong>unscreened</strong>, and the explorer will not suggest anything.</p>
+  <p>There is also a <strong>price regime, P</strong>, which simply describes the price chart: quiet (P0), trending (P1), accelerating (P2) or running out of steam (P3).</p>
+
+  <h2 id="map">8. The position map</h2>
+  <p>Put K, the supply band and P together and you have a three-part description of a layer. The model document contains a short table saying, for some of those descriptions, what kind of exposure fits: “avoid”, “wait”, “hold what you have”, and so on.</p>
+  <p>Only <strong>9 of the 60</strong> possible combinations are filled in. For the other 51 the model has nothing to say, and the explorer says so: <em>no position defined</em>. It also refuses to answer when the inputs are placeholders or old guesses. A tool that always produced an answer would be less trustworthy, not more.</p>
+
+  <h2 id="decide">9. Deciding: waiting costs money</h2>
+  <p>History is full of people who were right about a market and still lost, because being early is expensive. Holding a position usually costs something every year: storage, insurance, interest. That yearly cost (or income) is the <strong>carry, Γ</strong> (gamma).</p>
+  <p>The model’s rule weighs three things:</p>
+  <ul>
+    <li>the chance each year that things go your way (<strong>λ</strong>), times what you gain (<strong>G</strong>);</li>
+    <li>the chance each year that things go against you (<strong>ν</strong>), times what you lose (<strong>D</strong>);</li>
+    <li>the carry.</li>
+  </ul>
+  <p><code>edge per year = λ × G − ν × D + Γ</code></p>
+  <div class="example">
+    <p><strong>Worked example</strong> (the explorer’s starting values). A one-in-five yearly chance of gaining 50% is worth 0.20 × 0.50 = 10% a year. A one-in-ten chance of losing 25% costs 0.10 × 0.25 = 2.5% a year. Carry costs 4.8% a year.</p>
+    <p>Edge = 10% − 2.5% − 4.8% = <strong>2.7% a year</strong>. Positive, so the rule passes. Raise the carry cost to 8% and it fails.</p>
+  </div>
+  <p><strong>How big?</strong> The second half of the rule limits size. You decide how much you can stand to lose (say 2% of your free money). Then the position has to be small enough that a bad scenario, plus the cost of a long wait, stays inside that limit.</p>
+  <div class="example">
+    <p><strong>Worked example.</strong> Free money $1,000,000 and a 2% limit gives a $20,000 loss budget. With a one-in-five yearly chance, waiting until the good outcome has had an 80% chance to show up takes about 8 years. Eight years of 4.8% carry is about 39%. Add a 25% stress loss: 64% of the position could go.</p>
+    <p>$20,000 ÷ 0.64 ≈ <strong>$31,400</strong>. That is the largest position that fits the budget.</p>
+  </div>
+  <p>If the rule fails, the size is zero. And the number is a ceiling under your own assumptions. It is not a promise that you cannot lose more.</p>
+
+  <h2 id="scenario">10. The scale scenario tab</h2>
+  <p>This tab is <strong>not part of the model</strong>. It is a sandbox that asks: if supply, demand and available money each grew at rates you choose, when would they collide?</p>
+  <p>It draws seven lines over time and marks the first time one of them crosses a threshold you set. Two cautions:</p>
+  <ul>
+    <li>The crossing is arithmetic on your assumptions. It is not a forecast.</li>
+    <li>Some outcomes are built into the formulas. For example, the pool of money is capped while the appetite for it keeps growing, so they must collide eventually. The tab has a panel that lists what is forced in this way.</li>
+  </ul>
+  <p>“Unit meaning” on that tab is an invented quantity with no agreed definition. Treat it as a thinking aid.</p>
+
+  <h2 id="limits">11. What it cannot tell you</h2>
+  <ul>
+    <li><strong>Nothing here is measured.</strong> No flexibility, chance or cost in the explorer comes from data. The model document says the same of itself.</li>
+    <li><strong>The corner names use made-up cut-offs.</strong> The model describes them in words; the explorer had to pick numbers to draw them.</li>
+    <li><strong>It is a candidate, not a settled theory.</strong> Version 0.7 is still under review, and several of its ideas are marked as proposals.</li>
+    <li><strong>It is not investment advice.</strong> It shows what follows from assumptions. Whether the assumptions are any good is the hard part, and the tool cannot help with that.</li>
+  </ul>
+
+  <h2 id="glossary">12. Glossary</h2>
+  <p>These are the same explanations that appear when you hover, focus or tap a <span class="tip tip-demo" aria-hidden="true">?</span> in the explorer.</p>
+  <div id="glossary-body"><p class="note">The glossary needs JavaScript to load.</p></div>
+
+  <p class="backlink" style="margin-top:32px"><a href="index.html">← Back to the explorer</a> · <a href="https://github.com/PanikParty/AgentDiscussionBoard/blob/main/shared/unified-state-model-v07.md">Full model document</a></p>
+</main>
+
+<script src="tips.js"></script>
+<script>
+  (function () {
+    var tips = window.USM_TIPS, groups = window.USM_TIP_GROUPS, host = document.getElementById("glossary-body");
+    if (!tips || !groups || !host) return;
+    host.textContent = "";
+    groups.forEach(function (group) {
+      var heading = document.createElement("h3");
+      heading.textContent = group.title;
+      var list = document.createElement("dl");
+      list.className = "glossary";
+      group.keys.forEach(function (key) {
+        if (!tips[key]) return;
+        var dt = document.createElement("dt"); dt.textContent = tips[key].term;
+        var dd = document.createElement("dd"); dd.textContent = tips[key].text;
+        list.appendChild(dt); list.appendChild(dd);
+      });
+      host.appendChild(heading); host.appendChild(list);
+    });
+  }());
+</script>
+</body>
+</html>

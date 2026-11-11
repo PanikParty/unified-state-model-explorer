@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unified State Model explorer</title>
+  <meta name="description" content="Interactive explorer for the v0.7 candidate Unified State Model: elasticity planes, position map and decision overlay.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main id="usm">
+  <header class="masthead">
+    <div class="title-line">
+      <h1>Unified State Model explorer</h1>
+      <span class="badge">v0.7 candidate</span>
+    </div>
+    <p class="caveats">
+      <span>All inputs are user-set assumptions.</span>
+      <span>Unmeasured values are not evidence.</span>
+      <span>Not investment advice.</span>
+    </p>
+    <p class="primer-link">New to this? <a href="primer.html">Read the ten-minute primer</a>. Hover, focus or tap any <span class="tip tip-demo" aria-hidden="true">?</span> or dotted term for a plain-language explanation.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button role="tab" id="tab-state" aria-controls="panel-state" data-view="state" type="button">State planes</button>
+    <button role="tab" id="tab-decision" aria-controls="panel-decision" data-view="decision" type="button">Decision overlay</button>
+    <button role="tab" id="tab-scenario" aria-controls="panel-scenario" data-view="scenario" type="button">Scale scenario <span class="tag">exploratory</span></button>
+  </nav>
+
+  <!-- ───────────── State planes ───────────── -->
+  <section id="panel-state" role="tabpanel" aria-labelledby="tab-state">
+    <div class="grid controls">
+      <label><span>Market identifier M</span><input type="text" data-bind="market"></label>
+      <label><span>Capital regime K <small>(screen result, §3.1)</small></span>
+        <select data-bind="kStatus">
+          <option value="unscreened">Unscreened</option>
+          <option value="K0">K0 — Rationed</option>
+          <option value="K1">K1 — Cleared</option>
+          <option value="K2-observed">K2 — Insensitive (observed)</option>
+        </select>
+      </label>
+      <label data-show-when="k2"><span>K2 observation window</span><input type="text" data-bind="k2Window" placeholder="e.g. 2024Q1–2025Q4"></label>
+      <label data-show-when="k2"><span>K2 cost range observed</span><input type="text" data-bind="k2Range" placeholder="e.g. +150 bp"></label>
+      <label><span>Price regime P</span>
+        <select data-bind="p">
+          <option value="unclassified">Unclassified</option>
+          <option value="P0">P0 — Compressed</option>
+          <option value="P1">P1 — Trending</option>
+          <option value="P2">P2 — Accelerating</option>
+          <option value="P3">P3 — Exhausting</option>
+        </select>
+      </label>
+    </div>
+
+    <figure class="card plane-card">
+      <svg id="planes" viewBox="0 0 800 392" role="img" aria-label="Resource and capital elasticity planes"></svg>
+      <figcaption class="legend">
+        <span><i class="key key-line"></i>Diagonal: Δ = 0, equal flexibility</span>
+        <span><i class="key key-bold"></i>Anti-diagonal: Λ = 0, stability boundary</span>
+        <span><i class="key key-dash"></i>Dashed: contours of Λ</span>
+        <span><i class="key key-shade"></i>Shaded: Λ &lt; 0, self-reinforcing</span>
+        <span><i class="key key-hollow"></i>Hollow marker: UNPLACED or legacy (void)</span>
+        <label class="inline"><input type="checkbox" data-bind="showEpisodes"> <span>Show legacy episodes (void)</span></label>
+      </figcaption>
+      <p class="note" id="episode-key" hidden></p>
+    </figure>
+
+    <div class="two-col">
+      <article class="card">
+        <div class="card-head">
+          <h2>Resource layers <small>(§2.5)</small></h2>
+          <div class="actions">
+            <button type="button" id="layer-add">Add layer</button>
+            <button type="button" id="layer-remove">Remove selected</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="layer-table">
+            <thead>
+              <tr><th><span class="term" data-tip="layer.name" tabindex="0">Layer</span></th><th><span class="term" data-tip="layer.ed" tabindex="0">ε<sub>d</sub></span></th><th><span class="term" data-tip="layer.es" tabindex="0">ε<sub>s</sub></span></th><th><span class="term" data-tip="delta" tabindex="0">Δ</span></th><th><span class="term" data-tip="level" tabindex="0">Λ</span></th><th><span class="term" data-tip="mu" tabindex="0">μ</span></th><th><span class="term" data-tip="band" tabindex="0">S</span></th><th><span class="term" data-tip="corner" tabindex="0">Corner</span></th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="grid editor">
+          <label><span>Layer name</span><input type="text" data-layer="name"></label>
+          <label><span>Provenance</span>
+            <select data-layer="prov">
+              <option value="measured">Measured</option>
+              <option value="proxy">Proxy</option>
+              <option value="UNPLACED">UNPLACED</option>
+              <option value="legacy (void)">Legacy (void)</option>
+            </select>
+          </label>
+          <label><span>Cost bearer W</span>
+            <select data-layer="w">
+              <option value="">Not applicable</option>
+              <option value="W0">W0 — Customer-funded</option>
+              <option value="W1">W1 — Socialised</option>
+              <option value="W2">W2 — Contested</option>
+            </select>
+          </label>
+        </div>
+        <label class="range"><span><span>Demand flexibility ε<sub>d,R</sub></span> <output id="out-red"></output></span>
+          <input type="range" min="-0.95" max="0.95" step="0.01" data-layer="ed"></label>
+        <label class="range"><span><span>Supply flexibility ε<sub>s,R</sub></span> <output id="out-res"></output></span>
+          <input type="range" min="-0.95" max="0.95" step="0.01" data-layer="es"></label>
+      </article>
+
+      <article class="card">
+        <div class="card-head"><h2>Capital leg</h2></div>
+        <div class="grid editor">
+          <label><span>Provenance</span>
+            <select data-bind="capital.prov">
+              <option value="measured">Measured</option>
+              <option value="proxy">Proxy</option>
+              <option value="UNPLACED">UNPLACED</option>
+              <option value="legacy (void)">Legacy (void)</option>
+            </select>
+          </label>
+        </div>
+        <label class="range"><span><span>Demand flexibility ε<sub>d,C</sub></span> <output id="out-ced"></output></span>
+          <input type="range" min="-0.95" max="0.95" step="0.01" data-bind="capital.ed" data-number></label>
+        <label class="range"><span><span>Supply flexibility ε<sub>s,C</sub></span> <output id="out-ces"></output></span>
+          <input type="range" min="-0.95" max="0.95" step="0.01" data-bind="capital.es" data-number></label>
+        <div id="capital-readout" class="readout" aria-live="polite"></div>
+        <p class="note">K is set by its own screen and is never derived from these sliders (§3.1). K and Δ<sub>C</sub> are different objects.</p>
+      </article>
+    </div>
+
+    <article class="card">
+      <div class="card-head"><h2>Position map, per layer <small>(§6.1)</small> <span class="tip" data-tip="map" tabindex="0" role="button" aria-label="Explain: Position map">?</span></h2></div>
+      <div id="map-readout" aria-live="polite"></div>
+      <p class="note">The map names exposures, not instruments. Corner names use first-pass display thresholds that are not in the specification.</p>
+    </article>
+  </section>
+
+  <!-- ───────────── Decision overlay ───────────── -->
+  <section id="panel-decision" role="tabpanel" aria-labelledby="tab-decision" hidden>
+    <p class="note lead">Every number below is user-assumed, not a model estimate. Rates and fractions are annual decimals: 0.10 = 10%. Γ should be the stressed carry for the window (§4.2).</p>
+    <div class="grid inputs">
+      <label><span>Carry Γ / year</span><input type="number" step="0.001" data-bind="decision.gamma" data-number></label>
+      <label><span>Favourable gain G</span><input type="number" step="0.01" min="0" data-bind="decision.gain" data-number></label>
+      <label><span>Adverse loss D</span><input type="number" step="0.01" min="0" data-bind="decision.loss" data-number></label>
+      <label><span>Favourable hazard λ / year</span><input type="number" step="0.01" min="0" data-bind="decision.lambda" data-number></label>
+      <label><span>Adverse hazard ν / year</span><input type="number" step="0.01" min="0" data-bind="decision.nu" data-number></label>
+      <label><span>Entry margin m</span><input type="number" step="0.01" min="0" data-bind="decision.margin" data-number></label>
+      <label><span>Holding window T (years)</span><input type="number" step="0.25" min="0" data-bind="decision.window" data-number></label>
+      <label><span>Survival quantile q</span><input type="number" step="0.01" min="0.01" max="0.99" data-bind="decision.q" data-number></label>
+      <label><span>Loss-budget fraction k</span><input type="number" step="0.005" min="0" data-bind="decision.budgetFraction" data-number></label>
+      <label><span>Unencumbered capital U</span><input type="number" step="1000" min="0" data-bind="decision.capital" data-number></label>
+      <label><span>Stress loss D<sub>stress</sub></span><input type="number" step="0.01" min="0" data-bind="decision.stressLoss" data-number></label>
+      <label><span>Execution bound</span><input type="number" step="1000" min="0" data-bind="decision.execution" data-number></label>
+    </div>
+    <div class="two-col">
+      <figure class="card"><svg id="decision-chart" viewBox="0 0 420 210" role="img" aria-label="Decision rule components"></svg></figure>
+      <article class="card">
+        <div class="card-head"><h2>Decision rule and sizing <small>(§4.2, §4.3)</small></h2></div>
+        <div id="decision-readout" aria-live="polite"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ───────────── Scale scenario ───────────── -->
+  <section id="panel-scenario" role="tabpanel" aria-labelledby="tab-scenario" hidden>
+    <p class="note lead"><strong>Not part of the Unified State Model.</strong> v0.7 defines no volumes, no “unit meaning” and no capital-stock process. This view adds them as normalised assumptions. Its boundaries are deterministic threshold crossings, not the hazard-driven transitions of §5, and they do not classify K.</p>
+    <div class="grid inputs">
+      <label><span>Horizon (years)</span><input type="number" min="1" max="50" step="1" data-bind="scenario.horizon" data-number></label>
+      <label><span>Initial demand / supply</span><input type="number" min="0.01" step="0.05" data-bind="scenario.demandRatio" data-number></label>
+      <label><span>Technical supply growth / year</span><input type="number" min="0" step="0.01" data-bind="scenario.techGrowth" data-number></label>
+      <label><span>Baseline demand growth / year</span><input type="number" step="0.01" data-bind="scenario.demandGrowth" data-number></label>
+      <label><span>Supply-induced demand α</span><input type="number" min="0" max="2" step="0.05" data-bind="scenario.coupling" data-number></label>
+      <label><span>Meaning loss per supply doubling</span><input type="number" min="0" max="0.99" step="0.01" data-bind="scenario.meaningLoss" data-number></label>
+      <label><span>Initial capital supply</span><input type="number" min="0.01" max="1" step="0.01" data-bind="scenario.capitalStart" data-number></label>
+      <label><span>Capital supply growth / year</span><input type="number" min="0" step="0.01" data-bind="scenario.capitalGrowth" data-number></label>
+      <label><span>Initial capital utilisation</span><input type="number" min="0.01" max="3" step="0.05" data-bind="scenario.utilisation" data-number></label>
+      <label><span>Capital demand growth / year</span><input type="number" step="0.01" data-bind="scenario.capitalDemandGrowth" data-number></label>
+      <label><span>Capital intensity to scale β</span><input type="number" min="0" max="3" step="0.05" data-bind="scenario.intensity" data-number></label>
+      <label><span>Target lockup share</span><input type="number" min="0" max="1" step="0.05" data-bind="scenario.lockupTarget" data-number></label>
+      <label><span>Lockup speed / year</span><input type="number" min="0" step="0.05" data-bind="scenario.lockupSpeed" data-number></label>
+      <label><span>Meaning floor</span><input type="number" min="0.01" max="1" step="0.05" data-bind="scenario.meaningFloor" data-number></label>
+      <label><span>Capital strain threshold</span><input type="number" min="0.01" max="5" step="0.05" data-bind="scenario.strainLimit" data-number></label>
+    </div>
+    <figure class="card">
+      <svg id="scenario-chart" viewBox="0 0 760 560" role="img" aria-label="Scenario trajectories"></svg>
+      <figcaption class="legend">
+        <span><i class="key sw s1"></i>Intelligence supply</span>
+        <span><i class="key sw s2"></i>Intelligence demand</span>
+        <span><i class="key sw s3"></i>Capital demand</span>
+        <span><i class="key sw s4"></i>Capital supply</span>
+        <span><i class="key sw s5"></i>Unit meaning</span>
+        <span><i class="key sw s6"></i>Capital converted</span>
+        <span><i class="key sw s7"></i>Capital lockup</span>
+        <span><i class="key key-line"></i>Thin grey: thresholds</span>
+      </figcaption>
+    </figure>
+    <div class="two-col">
+      <article class="card">
+        <div class="card-head"><h2>Boundary crossings <span class="tip" data-tip="out.crossing" tabindex="0" role="button" aria-label="Explain: Boundary crossing">?</span></h2></div>
+        <div id="scenario-readout" aria-live="polite"></div>
+      </article>
+      <article class="card">
+        <div class="card-head"><h2>What the assumptions force <span class="tip" data-tip="out.forced" tabindex="0" role="button" aria-label="Explain: What the assumptions force">?</span></h2></div>
+        <div id="scenario-forced" aria-live="polite"></div>
+      </article>
+    </div>
+  </section>
+
+  <footer>
+    <p>Source model: <a href="https://github.com/PanikParty/AgentDiscussionBoard/blob/main/shared/unified-state-model-v07.md">unified-state-model-v07.md</a>. Section numbers on this page refer to it. <a href="primer.html">Primer and glossary</a>. <button type="button" id="reset" class="link">Reset all inputs</button></p>
+  </footer>
+</main>
+
+<script src="vendor/d3.min.js"></script>
+<script src="model.js"></script>
+<script src="tips.js"></script>
+<script src="tooltip.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

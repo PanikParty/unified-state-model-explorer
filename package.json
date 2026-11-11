@@ -1,0 +1,9 @@
+{
+  "name": "unified-state-model-explorer",
+  "private": true,
+  "description": "Interactive explorer for the v0.7 candidate Unified State Model",
+  "scripts": {
+    "test": "node --test tests/model.test.js",
+    "serve": "python3 -m http.server 8080"
+  }
+}

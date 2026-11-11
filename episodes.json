@@ -1,0 +1,71 @@
+{
+  "schema": "usm-episodes/1",
+  "note": "Seed rows from §7 of unified-state-model-v07.md. Every value was placed by narrative on a scale that predates §2.1 and is VOID for inference. They are plotted only to illustrate the algebraic point of §2.3: similar Δ at very different Λ.",
+  "episodes": [
+    {
+      "name": "Dot-com bubble",
+      "market": "US internet infrastructure",
+      "layer": "Bandwidth / servers",
+      "dates": "1998–2000",
+      "resource": { "ed": 0.3, "es": 0.9 },
+      "capital": null,
+      "scale_version": "pre-v0.7 (appetite-placed)",
+      "provenance": "legacy (void)",
+      "record": null,
+      "carry": null,
+      "valid": false
+    },
+    {
+      "name": "Dot-com bust",
+      "market": "US internet infrastructure",
+      "layer": "Bandwidth / servers",
+      "dates": "2000–2002",
+      "resource": { "ed": -0.5, "es": 0.4 },
+      "capital": null,
+      "scale_version": "pre-v0.7 (appetite-placed)",
+      "provenance": "legacy (void)",
+      "record": null,
+      "carry": null,
+      "valid": false
+    },
+    {
+      "name": "Housing boom",
+      "market": "US housing",
+      "layer": "Housing stock / land",
+      "dates": "2003–2007",
+      "resource": { "ed": 0.4, "es": 0.9 },
+      "capital": null,
+      "scale_version": "pre-v0.7 (appetite-placed)",
+      "provenance": "legacy (void)",
+      "record": null,
+      "carry": null,
+      "valid": false
+    },
+    {
+      "name": "Housing bust",
+      "market": "US housing",
+      "layer": "Housing stock / land",
+      "dates": "2008–2009",
+      "resource": { "ed": -0.9, "es": -0.3 },
+      "capital": null,
+      "scale_version": "pre-v0.7 (appetite-placed)",
+      "provenance": "legacy (void)",
+      "record": null,
+      "carry": null,
+      "valid": false
+    },
+    {
+      "name": "Crypto unwind",
+      "market": "Crypto",
+      "layer": "Token issuance",
+      "dates": "2022",
+      "resource": { "ed": -0.7, "es": 0.6 },
+      "capital": null,
+      "scale_version": "pre-v0.7 (appetite-placed)",
+      "provenance": "legacy (void)",
+      "record": null,
+      "carry": null,
+      "valid": false
+    }
+  ]
+}
