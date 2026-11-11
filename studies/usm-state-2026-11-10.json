@@ -1,0 +1,111 @@
+{
+  "schema": "usm-state/1",
+  "model": "unified-state-model-v07.md (candidate, not ratified)",
+  "revision": 2,
+  "revision_note": "Corrected after review. 'Term premium event' withdrawn (ACM: +64bp expected path vs +12bp TP over 12m; TP -15bp over 3m). Real policy restated -1.72% on 3m annualised. Metal-carry criticism withdrawn; convention fixed to excess-over-cash. Ballot results reclassified W -> administrative Q. Neocloud K2 downgraded to provisional, with a missing fourth screen outcome. F1 claim withdrawn as unreadable. HY level-vs-flow screens separated.",
+  "as_of": "2026-11-10T20:37:00-08:00",
+  "note": "Provenance per cell. No elasticity is measured anywhere: every (eta_d, eta_s) is UNPLACED, so no corner and no map entry may be assigned (S2.1, S6.2, S6.3). P is computed from daily closes per S3.3. K statuses are qualified by window and cost range. Gamma is excess over cash (convention adopted here; unstated in S4.1).",
+  "conventions": {
+    "gamma": "excess over cash; cash = 4.00% (fed funds upper). Adopted because S4.2 compares against not holding.",
+    "P_basis": "realised 20d vol annualised, percentile vs its own trailing 252 obs; implied vol reported as a readout only",
+    "market_tensions": "11 of 12 markets unclassified; 1 at P1 (USD/JPY)"
+  },
+  "state": [
+    {"M": "US Treasury 10y", "layer": "sovereign duration", "S": "S0h(proxy, statutory supply)", "K": "unscreened", "P": "unclassified",
+     "readouts": {"last": "4.98% (Nov10 close ^TNX); 4.88% FRED Nov9", "real_10y": "2.66% (+83bp y/y)", "breakeven": "2.20% (-9bp y/y)", "vol_pct": 100, "z200": 1.25,
+                  "ACM_fitted_10y": "4.911% (2026-10-30)", "ACM_TP10": "0.682%",
+                  "ACM_12m": "+76bp = +64bp expected path + 12bp term premium",
+                  "ACM_3m": "+9bp = +24bp expected path - 15bp term premium"},
+     "read": "Real-rate repricing driven by the expected policy path, not term premium. Term premium has been FALLING into a yield rise.",
+     "notes": "The P ladder is upside-only and does not apply to a yield rise; unclassified rather than defaulted."},
+    {"M": "US credit (index)", "layer": "HY / IG corporate", "S": "S1(proxy)", "K": "unscreened", "P": "unclassified",
+     "readouts": {"hy_oas": "334bp", "hy_level_pct_1y": 96, "hy_5s_change_bp": -9, "hy_5s_flow_pct_1y": 12,
+                  "hy_trigger_sessions": "2026-11-02..05 (+13,+22,+18,+22bp)", "ig_oas": "91bp", "ig_level_pct_1y": 94, "ig_5s_change_bp": -3},
+     "notes": "Level and flow are different screens: level at the 96th pct of its own year, flow at the 12th today but firing last week. p and N unset, so S5.3 has not fired BY RULE."},
+    {"M": "AI compute US 2026 - hyperscaler pool", "layer": "L1 grid/interconnect", "S": "S0h(proxy)", "K": "unscreened", "P": "unclassified",
+     "readouts": {"L2a": "unassigned", "L2b": "S1(proxy)", "L3": "S2(proxy)", "binding_layer": "L1", "ig_3m_bp": 13, "ig_1y_bp": 7},
+     "notes": "Variation test fails against >=150bp: the screen cannot separate K1 from K2 for this pool."},
+    {"M": "AI compute US 2026 - neocloud pool", "layer": "L1 grid/interconnect", "S": "S0h(proxy)", "K": "provisional (not K2-observed)", "P": "unclassified",
+     "k2_window": "3 months - TOO SHORT (repricing began before 2026-07-29 at 855bp; under 400bp a year ago)",
+     "k2_cost_range": "~855bp -> >1,240bp 5y CDS",
+     "screen_outcome_needed": "K2-unobservable (access closed) - fourth outcome absent from S3.1",
+     "readouts": {"cds_5y": ">1240bp, +50% m/m", "cds_jul29": "855bp", "cds_1y_ago": "<400bp",
+                  "debt_principal": "$35bn (Jun30); ~$52bn incl leases",
+                  "maturities": "$4.4bn before end-2026; $6.2bn in 2027",
+                  "iren_backlog_concentration": "48% Microsoft", "iren_debt": "$10bn"},
+     "notes": "Response test unreadable. Outstanding debt and backlog are STOCK (past commitments); S3.1 requires new commitments made after the cost rose. A borrower locked into delivery is trapped, not insensitive - both show the same quantity and opposite forward behaviour."},
+    {"M": "Gold", "layer": "chain: primary mine (S0h proxy). alternatives: recycling/vault stock (price-responsive, unmeasured). KIND UNSET", "S": "layered", "K": "K1 (allocation test only)", "P": "unclassified",
+     "readouts": {"spot": 4042.60, "front_month": 4051.70, "from_record": "-27.7% (record 5595, 2026-01-29)", "z50": -1.00, "z200": -1.21, "rv_pct": 58, "gvz": 24.43},
+     "gamma": "-4.75%/yr excess over cash (storage 0.3-0.5 + insurance 0.2-0.5 + cash 4.00)",
+     "notes": "S2.5 names the mine, but the marginal seller is above-ground stock. Layer KIND must be declared: chain -> least flexible binds; alternatives -> share-weighted sum, most flexible source sets the margin."},
+    {"M": "Silver", "layer": "chain: primary mine (S0h proxy). alternatives: by-product, recycling. KIND UNSET", "S": "layered", "K": "K1 (allocation test only)", "P": "unclassified",
+     "readouts": {"spot": 52.50, "front_month": 52.37, "from_record": "-56.8% (record 121.64)", "z50": -1.26, "z200": -1.53, "rv_pct": 35},
+     "gamma": "-5.0% to -5.5%/yr excess over cash"},
+    {"M": "Brent crude", "layer": "OPEC+ spare capacity (S0s/S0h) / shale (S1)", "S": "layered", "K": "unscreened", "P": "unclassified",
+     "readouts": {"last": 92.36, "from_1y_high": "-21.9%", "chg_21d": "-12.6%", "ovx": 53.10, "iv_10s": "-4.2%"}},
+    {"M": "S&P 500", "layer": "US large-cap equity", "S": "n/a", "K": "unscreened", "P": "unclassified",
+     "readouts": {"last": 7520.93, "from_1y_high": "-3.8%", "rv_pct": 100, "z50": -1.56, "z200": 0.49, "iv_10s": "+11.1%"}},
+    {"M": "Nasdaq Comp", "layer": "US tech equity", "S": "n/a", "K": "unscreened", "P": "unclassified",
+     "readouts": {"last": 25065.88, "from_1y_high": "-9.2%", "rv_pct": 100, "z200": -0.03, "iv_10s": "+14.7%"}},
+    {"M": "Bitcoin", "layer": "token issuance (S2) / custody", "S": "S2(proxy)", "K": "unscreened", "P": "unclassified",
+     "readouts": {"last": 73704, "from_1y_high": "-14.9%", "rv_pct": 56, "z200": 0.07}, "gamma": "-4.0%/yr excess over cash"},
+    {"M": "Ethereum", "layer": "token issuance / staking", "S": "S2(proxy)", "K": "unscreened", "P": "unclassified",
+     "readouts": {"last": 2066.52, "from_1y_high": "-25.6%", "rv_pct": 65}, "gamma": "-1.0% to -1.5%/yr excess over cash"},
+    {"M": "USD/JPY", "layer": "managed currency (BOJ)", "S": "n/a", "K": "K0 candidate (allocation test not run)", "P": "P1",
+     "readouts": {"last": 158.82, "jgb_10y": "2.70% (off 3.07% Sep24 peak)", "rv_pct": 34}},
+    {"M": "DXY", "layer": "USD index", "S": "n/a", "K": "unscreened", "P": "P2-pending-IV",
+     "readouts": {"last": 102.25, "y_high": 102.58, "rv_pct": 72, "z200": 1.68},
+     "notes": "Passes every P2 test except IV-rising, for which no DXY implied-vol series exists. Not defaulted. This is the case that motivates replacing the ladder with a trend x vol grid."}
+  ],
+  "decision_overlay_gold": {
+    "gamma_excess_over_cash": -0.0475, "G": 0.35, "D": -0.20, "m": 0.0,
+    "breakeven_hazard_at_lambda_eq_nu_pct_per_yr": 8.64,
+    "sizing": [
+      {"k": 0.02, "stress_loss": 0.20, "lambda": 0.03, "T50_yrs": 23.1, "carry_cost": 1.097, "size_pct_of_U_max": 1.5},
+      {"k": 0.02, "stress_loss": 0.20, "lambda": 0.10, "T50_yrs": 6.9, "carry_cost": 0.329, "size_pct_of_U_max": 3.8}
+    ],
+    "read": "Measured against cash, carry IS the binding constraint - revision 1's opposite conclusion used a cash-outlay convention. Break-even hazard 8.6%/yr; a 2% loss budget supports 1.5-3.8% of unencumbered capital if the repair takes years."
+  },
+  "physical_premium": {
+    "market": "SGE vs COMEX",
+    "naive_same_day_gap_pct": 2.34,
+    "corrected_gap_vs_prior_us_close_pct": 0.25,
+    "gap_vs_live_paper_pct": 2.03,
+    "mean_corrected_gap_40obs_pct": -0.12,
+    "sd_corrected_gap_pct": 0.67,
+    "corr_us_session_move_vs_naive_gap": -0.86,
+    "preregistered_method_change": "Compare against international spot and USD/CNY STAMPED AT THE FIX TIME, not prior close plus a daily FX fix. Carry a placebo gate: the corrected series must be uncorrelated with the post-fix US session return, or the lead test is void.",
+    "verdict": "No physical premium. The headline gap is a session-timing artifact."
+  },
+  "five_force_status": {
+    "gold_paper_vs_physical": "FLAT (premium artifact)",
+    "treasury_buyer_base": "EXPECTED POLICY PATH: ACM +64bp path / +12bp TP over 12m; TP -15bp over 3m. FIMA $0 7th week.",
+    "yen_carry": "2 of 5 (yen>155 yes; oil>100 no at 92.36; JKM unmeasured; MOF 0; FIMA 0). October 4/5 flag WITHDRAWN",
+    "fannie_condo": "not measured this pass",
+    "ai_debt": "Stage 1 fully active; Stage 2 marker (capex guidance cut) NOT met"
+  },
+  "event_classifications": [
+    {"event": "40 of 41 data-centre ballot measures restrictive (2026-11-03, 10 states)", "class": "administrative Q, NOT W",
+     "reason": "A ban/moratorium/veto sets no price and allocates no cost. eta_s -> 0 at those sites; hardens L1 locally. W (who pays for grid upgrades) is untouched."},
+    {"event": "Data Center Watch: >=45 projects, $68bn blocked or delayed by local opposition, Q2 2026", "class": "administrative Q",
+     "reason": "Precedes the 2026-10-15 CDS break by a full quarter."},
+    {"event": "CoreWeave 5y CDS through 1,100bp (2026-10-15)", "class": "capital C"},
+    {"event": "HY OAS 5-session widening +22bp (2026-11-05)", "class": "capital C, first-pass p=95 trigger",
+     "reason": "Level 96th pct of 1y; 5-session flow 12th pct today. p and N unset, so not fired by rule."}
+  ],
+  "falsification_observations": [
+    {"id": "F1", "observation": "Q-class administrative events precede the capital repricing (Q2 2026 through 2026-11-03 vs the CDS break on 2026-10-15).",
+     "status": "Claim 'C fired first' WITHDRAWN. F1 unreadable on this episode: the K2 status is provisional, so no exit window is established. Also circular as drafted.",
+     "preregistered_fix": "K2 must be established on a window that CLOSES BEFORE the exit window opens; otherwise one spread move is scored as both the variation test and the exit trigger."},
+    {"id": "F6", "observation": "The naive premium series is mechanically correlated -0.86 with the post-fix US move.",
+     "status": "Pre-registered fix: fix-time stamped spot + FX, plus a placebo gate on the corrected series."}
+  ],
+  "open_defects_found": [
+    "S3.1 needs a fourth screen outcome: K2-unobservable (access closed). Without it, a denial of credit scores as insensitivity to its price.",
+    "S3.1 'committed quantity' must be defined as NEW commitments dated after the cost rise, not outstanding stock or backlog.",
+    "S2.5 needs a layer KIND: chain (complements -> least flexible binds) vs alternatives (substitutes -> share-weighted sum, most flexible sets the margin).",
+    "S4.1 does not state whether Gamma is absolute or excess over cash; the spec's -4.8%/yr metal figure is correct only on the excess-over-cash reading.",
+    "S12.8 (no downside levels for P) remains the binding constraint: 11 of 12 markets unclassified in a synchronous de-rating.",
+    "S3.3's dependence on an implied-vol series makes P2 unreachable for DXY; the replacement is a trend x volatility grid with realised vol as the common basis."
+  ]
+}
